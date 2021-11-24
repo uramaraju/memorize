@@ -10,6 +10,7 @@ import Foundation
 enum EmojiTheme:String,CaseIterable, Hashable{
     case sports, food,travel
 }
+
 class Data{
     private static let travelEmojis = ["✈️","🛵","🛳","🚙",
                                "🚟","🚎","🚅","🚁",
