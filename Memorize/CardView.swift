@@ -8,29 +8,27 @@
 import SwiftUI
 
 struct CardView: View {
-    let content:String
-    @State var isFaceUp:Bool = true
+    var content:MemoryGame<String>.Card
     var body: some View {
         let shape = RoundedRectangle(cornerRadius: 20)
         ZStack {
-            if isFaceUp{
+            if content.isFaceUp{
                 shape.fill(.white)
+                    .transition(CardView.moveAndFade)
                 shape.strokeBorder(lineWidth: 2)
-                Text(content).font(.title)
-            }else {
+                Text(content.content).font(Font(.init(.label, size: 70)))
+            } else {
                 shape.fill()
+                    .transition(CardView.moveAndFade)
             }
-        }
-        .onTapGesture {
-            withAnimation(.spring()){
-                isFaceUp.toggle()
-            }
-        }
+        }.opacity(content.isMatched ? 0.02 : 1.0)
     }
-}
-
-struct CardView_Previews: PreviewProvider {
-    static var previews: some View {
-        CardView(content: "🥝")
-    }
+    
+    static var moveAndFade: AnyTransition {
+ //       .opacity
+            .asymmetric(
+                insertion: .move(edge: .trailing).combined(with: .opacity),
+                removal: .slide.combined(with: .opacity)
+            )
+        }
 }
