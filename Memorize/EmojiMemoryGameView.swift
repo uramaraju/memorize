@@ -104,5 +104,6 @@ struct ContentView_Previews: PreviewProvider {
     static let game = EmojiMemoryGame()
     static var previews: some View {
         EmojiMemoryGameView(game: game)
+            .preferredColorScheme(.dark)
     }
 }

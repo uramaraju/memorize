@@ -10,7 +10,7 @@ import SwiftUI
 
 
 
-struct MemoryGame<CardContent> where CardContent:Equatable{
+struct MemoryGame<CardContent> where CardContent:Hashable{
     
     struct Card:Identifiable{
         var isFaceUp:Bool = false
@@ -72,37 +72,16 @@ struct MemoryGame<CardContent> where CardContent:Equatable{
     
     init(theme:GameTheme){
         self.theme = theme
-        let shuffled = theme.emojis.shuffled()
+        let shuffled = theme.emojis.reduce(into: Set<CardContent>()){
+            $0.insert($1)
+        }.shuffled()
+        
         cards = Array<Card>()
-        for pairIndex in 0..<theme.cardsCount {
+        for pairIndex in 0..<min(theme.cardsCount,shuffled.count) {
             let content = shuffled[pairIndex]
             cards.append(Card(content: content, id : pairIndex*2))
             cards.append(Card(content: content, id : pairIndex*2+1))
         }
         cards.shuffle()
     }
-}
-
-class Data{
-    public static let travelEmojis = ["✈️","🛵","🛳","🚙",
-                                      "🚟","🚎","🚅","🚁",
-                                      "🛶","🚤","🛥" ,"🏎",
-                                      "🚂","🚑","🚈","🚡",
-                                      "🚀","🚲","🏍","🛺",
-                                      "🚚","🚜","🦽","🛴",
-                                      "🦼","🚍","🚖","🛸",
-                                      "🚓","🚗","🦯","🚊"]
-    
-    public static let sportsEmojis = ["⚽️","🏀","🏈","⚾️","🎾","🏐","🏉","🥏","🎱",
-                                      "🪀","🏓","🏸","🏒","🏑","🥍","🏏","🪃","🥅",
-                                      "⛳️","🪁","🏹","🎣","🤿","🥊","🥋","🎽","🛹",
-                                      "🛼","🛷","⛸","🥌","⛷","🏋🏽","🤼‍♀️","🤸🏼‍♀️","🏇🏼",
-                                      "🏄‍♀️","🏊🏻‍♀️","🧗🏼‍♀️","🚴🏼‍♀️","🧘"]
-    
-    public static let foodEmojis = ["🍏","🍐","🍊","🍋","🍌","🍉","🍇","🍓","🫐","🍈","🍒","🍑",
-                                    "🥭","🍍","🥥","🥝","🍅","🍆","🥑","🥦","🥬","🥒","🌶","🫑",
-                                    "🌽","🥕","🫒","🧄","🧅","🥔","🍠","🥐","🥯","🍞","🥖","🧀",
-                                    "🥚","🥓","🥩","🍗","🍖","🍔","🍟","🍕","🥙","🌮","🌯","🫔",
-                                    "🥗","🫕","🍝","🍜","🍛","🥟","🦪","🍤"]
-    
 }
