@@ -11,7 +11,7 @@ import SwiftUI
 struct EmojiMemoryGameView: View {
     @State var isAdding:Bool = false
     @ObservedObject var game:EmojiMemoryGame
-    @State var themeData = ThemeData( name: "new", emojis: "", color: .red, cardsCount: 3.0)
+    @State var themeData = ThemeData( name: "", emojis: "", color: .red, cardsCount: 3.0)
     fileprivate func Header() -> some View {
         HStack{
             Text("Memorize \(game.name)").font(Font(.init(.label, size: 40)))
