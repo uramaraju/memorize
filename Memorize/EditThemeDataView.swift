@@ -19,7 +19,6 @@ struct EditThemeDataView: View {
                 Spacer()
                 Text("\(Int(theme.cardsCount))")
             }
-            
             Slider(value: $theme.cardsCount, in: 3...30, step:1.0){
                 Text("Cards")
             }
@@ -45,7 +44,7 @@ struct EditThemeDataView_Previews: PreviewProvider {
     static let game = EmojiMemoryGame()
     static var previews: some View {
         EditThemeDataView(theme: .constant(ThemeData(name: "test", emojis:"🍏🍐🍊🍋🍌🍉", color: .blue, cardsCount: 3.0)))
-            .preferredColorScheme(.dark)
+          //  .preferredColorScheme(.dark)
     }
 }
 

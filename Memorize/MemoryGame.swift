@@ -8,8 +8,6 @@
 import Foundation
 import SwiftUI
 
-
-
 struct MemoryGame<CardContent> where CardContent:Hashable{
     
     struct Card:Identifiable{
@@ -29,12 +27,12 @@ struct MemoryGame<CardContent> where CardContent:Hashable{
     
     let theme:GameTheme
     var cards:Array<Card>
-    var color:Color {
-        get{
-            theme.color
-        }
+    var color:Color {theme.color}
+    
+    private var lastFaceUpIndex:Int?{
+        get{cards.indices.filter({cards[$0].isFaceUp}).oneAndOnly}
+        set{cards.indices.forEach{cards[$0].isFaceUp = newValue == $0}}
     }
-    private var lastFaceUpIndex:Int?
     
     var score:Int = 0
     
@@ -43,29 +41,25 @@ struct MemoryGame<CardContent> where CardContent:Hashable{
            !cards[index].isFaceUp,
            !cards[index].isMatched
         {
-            if let lastIndex = lastFaceUpIndex {
-                if (cards[lastIndex].content == cards[index].content){
-                    cards[lastIndex].isMatched = true
-                    cards[index].isMatched = true
-                    score += 2
-                } else{
-                    if (cards[lastIndex].seenCount>1){
-                        score -= 1
-                    }
-                    if (cards[index].seenCount >= 1){
-                        score -= 1
-                    }
+        if let lastIndex = lastFaceUpIndex {
+            if (cards[lastIndex].content == cards[index].content){
+                cards[lastIndex].isMatched = true
+                cards[index].isMatched = true
+                score += 2
+            } else{
+                if (cards[lastIndex].seenCount>1){
+                    score -= 1
                 }
-                lastFaceUpIndex = nil
-            }
-            else{
-                for item in cards.indices {
-                    cards[item].isFaceUp = false
+                if (cards[index].seenCount >= 1){
+                    score -= 1
                 }
-                lastFaceUpIndex = index
             }
-            cards[index].isFaceUp.toggle()
-            cards[index].seenCount = cards[index].seenCount + 1;
+            cards[index].isFaceUp = true
+        }
+        else{
+            lastFaceUpIndex = index
+        }
+        cards[index].seenCount = cards[index].seenCount + 1;
         }
         
     }
@@ -76,12 +70,21 @@ struct MemoryGame<CardContent> where CardContent:Hashable{
             $0.insert($1)
         }.shuffled()
         
-        cards = Array<Card>()
+        cards = []
         for pairIndex in 0..<min(theme.cardsCount,shuffled.count) {
             let content = shuffled[pairIndex]
             cards.append(Card(content: content, id : pairIndex*2))
             cards.append(Card(content: content, id : pairIndex*2+1))
         }
         cards.shuffle()
+    }
+}
+
+extension Array{
+    var oneAndOnly:Element? {
+        if self.count == 1 {
+            return self.first
+        }
+        return nil
     }
 }

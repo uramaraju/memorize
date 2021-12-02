@@ -84,11 +84,11 @@ struct EmojiMemoryGameView: View {
             Header()
             ScrollView{
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 70, maximum: 200))]){
-                    ForEach(game.cards) { content in
-                        CardView(content: content)
+                    ForEach(game.cards) { card in
+                        CardView(card: card)
                             .aspectRatio(3/4, contentMode: .fit).onTapGesture {
                                 withAnimation(animation()){
-                                    game.chooseCard(content)
+                                    game.chooseCard(card)
                                 }
                             }
                     }
