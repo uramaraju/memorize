@@ -6,7 +6,7 @@
 //
 
 import Foundation
-class Data{
+class EmojiConstants{
     public static let travelEmojis = ["✈️","🛵","🛳","🚙",
                                       "🚟","🚎","🚅","🚁",
                                       "🛶","🚤","🛥" ,"🏎",

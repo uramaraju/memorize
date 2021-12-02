@@ -83,7 +83,7 @@ struct EmojiMemoryGameView: View {
         VStack{
             Header()
             ScrollView{
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 70, maximum: 200))]){
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 90, maximum: 200))]){
                     ForEach(game.cards) { card in
                         CardView(card: card)
                             .aspectRatio(3/4, contentMode: .fit).onTapGesture {
