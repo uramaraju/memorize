@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+typealias Card = MemoryGame<String>.Card
 
 struct EmojiMemoryGameView: View {
     @State var isAdding:Bool = false
@@ -80,29 +80,38 @@ struct EmojiMemoryGameView: View {
     }
     
     var body: some View {
+        
         VStack{
             Header()
-            ScrollView{
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 90, maximum: 200))]){
-                    ForEach(game.cards) { card in
-                        CardView(card: card)
-                            .aspectRatio(3/4, contentMode: .fit).onTapGesture {
-                                withAnimation(animation()){
-                                    game.chooseCard(card)
-                                }
-                            }
-                    }
-                }
-            }.foregroundColor(game.color)
+            AspectVGrid(items: game.cards,aspectRatio: 2/3,content: {
+                createCard(card: $0)
+                //.background(game.color)
+            }).foregroundColor(game.color)
+            
             Footer()
         }
         .padding(.horizontal)
+    }
+    
+    @ViewBuilder
+    private func createCard(card:Card) -> some View{
+        if (card.isMatched && !card.isFaceUp)   {
+            Rectangle().opacity(0)
+        } else{
+            CardView(card:card).onTapGesture {
+                withAnimation(animation()){
+                    game.chooseCard(card)
+                }
+            }
+        }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static let game = EmojiMemoryGame()
+    // game.cards[0].isFaceUp = true
     static var previews: some View {
+        
         EmojiMemoryGameView(game: game)
             .preferredColorScheme(.dark)
     }

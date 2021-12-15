@@ -10,8 +10,8 @@ typealias Theme = MemoryGame<String>.GameTheme
 // to be reference
 class EmojiMemoryGame : ObservableObject{
     init(){
-        let data = [Theme(color:.green,name:"Food", emojis:EmojiConstants.foodEmojis,cardsCount:5),
-                    Theme(color:.red, name:"Sports", emojis: EmojiConstants.sportsEmojis,cardsCount:4),
+        let data = [Theme(color:.green,name:"Food", emojis:EmojiConstants.foodEmojis,cardsCount:6),
+                    Theme(color:.red, name:"Sports", emojis: EmojiConstants.sportsEmojis,cardsCount:7),
                     Theme(color:.yellow,name:"Travel", emojis:EmojiConstants.travelEmojis,cardsCount:6),
                     Theme(color:.orange,name:"Fewer", emojis:EmojiConstants.fewerThanSelected,cardsCount:6),
                     Theme(color:.purple,name:"Repeat", emojis:EmojiConstants.repeated,cardsCount:6)]

@@ -18,13 +18,15 @@ struct CardView: View {
                 if card.isFaceUp{
                     shape.fill(.white).transition(CardView.moveAndFade)
                     shape.strokeBorder(lineWidth: Constants.lineWidth)
+                    Pie(startAngle:Angle(degrees: (0-90.0)), endAngle: Angle(degrees:125.0-90.0), clockwise: false).padding(5).opacity(0.5)
                     Text(card.content).font(cardFont(size: geometry.size))
                 } else {
                     shape.fill()
                         .transition(CardView.moveAndFade)
                     shape.strokeBorder(.white, lineWidth: Constants.lineWidth)
                 }
-            }.opacity(card.isMatched ? 0 : 1.0)
+            }
+            .opacity(card.isMatched ? 0 : 1.0)
         }
     }
     
